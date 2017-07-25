@@ -2,11 +2,12 @@ import praw
 import pdb
 import re
 import os
+import time
 
 reddit = praw.Reddit('bot1')
 
-subreddit = reddit.subreddit("magictcg")
-
+subreddit = reddit.subreddit("magictcg+edh")
+        
 if not os.path.isfile("posts_replied_to.txt"):
     posts_replied_to = []
 else:
@@ -24,7 +25,7 @@ else:
        comments_replied_to = list(filter(None, comments_replied_to))
 
 #Check submission titles
-for submission in subreddit.new():
+for submission in subreddit.stream.submissions():
     if submission.id not in posts_replied_to:
         if re.search("Queen Marchesa", submission.title, re.IGNORECASE) and not re.search("long may she reign", submission.title, re.IGNORECASE):
             submission.reply(">Queen Marchesa (long may she reign)\n\nFTFY. I'm a bot. If I've made a mistake, click [here.](https://www.reddit.com/message/compose?to=shadowwesley77)")
@@ -49,6 +50,7 @@ with open("posts_replied_to.txt", "w") as f:
 with open("comments_replied_to.txt", "w") as t:
     for post_id in comments_replied_to:
         t.write(post_id + "\n")
-        
+
+
             
             
