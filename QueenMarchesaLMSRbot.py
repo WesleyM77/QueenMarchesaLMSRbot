@@ -36,7 +36,7 @@ for submission in subreddit.stream.submissions():
         comments = submission.comments[:]
         while comments:
             comment = comments.pop(0)
-            if comment.id not in comments_replied_to:
+            if comment.id not in comments_replied_to and comment.author is not "MTGCardFetcher":
                 if re.search("Queen Marchesa", comment.body, re.IGNORECASE) and not re.search("long may she reign", comment.body, re.IGNORECASE):
                     comment.reply(">Queen Marchesa (long may she reign)\n\nFTFY. I'm a bot. If I've made a mistake, click [here.](https://www.reddit.com/message/compose?to=shadowwesley77)")
                     print("Bot replied to comment under: ", submission.title)
