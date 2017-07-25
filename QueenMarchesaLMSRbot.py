@@ -34,7 +34,7 @@ checked = 0
 for submission in subreddit.stream.submissions():
     if submission.id not in posts_replied_to:
         checked = checked + 1
-        if checked % 100 == 100:
+        if checked % 100 == 0:
             print ("Checked ", checked ," posts")
         if re.search("Queen Marchesa", submission.title, re.IGNORECASE) and not re.search("long may she reign", submission.title, re.IGNORECASE):
             submission.reply(lmsrcomment)
