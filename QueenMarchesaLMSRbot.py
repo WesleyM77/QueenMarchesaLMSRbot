@@ -48,7 +48,7 @@ while should_restart:
         if submission.id not in posts_replied_to:
             checked = checked + 1
             print ("Checked ", checked ," posts. ", submission.title)
-            if time.time() - start % 3600 == 0:
+            if checked % 2000 == 0:
                 msg = "Uptime: " + ((time.time()-start)/3600) + " hours.\n\n Checked " + checked + " posts.\n\nReplied to " + replied + " posts."
                 reddit.redditor('shadowwesley77').message("Bot Status", msg,) 
             if checked % 100 == 0:
