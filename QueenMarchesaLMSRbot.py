@@ -93,7 +93,7 @@ while should_restart:
                             for post_id in comments_replied_to:
                                 t.write(post_id + "\n")
                     comments.extend(comment.replies)
-
+    should_restart = True
 
 
 
