@@ -49,7 +49,7 @@ while should_restart:
             checked = checked + 1
             print ("Checked ", checked ," posts. ", submission.title)
             if checked % 2000 == 0:
-                msg = "Uptime: " + ((time.time()-start)/3600) + " hours.\n\n Checked " + checked + " posts.\n\nReplied to " + replied + " posts."
+                msg = "Uptime: " + str((time.time()-start)/3600) + " hours.\n\n Checked " + str(checked) + " posts.\n\nReplied to " + str(replied) + " posts."
                 reddit.redditor('shadowwesley77').message("Bot Status", msg,) 
             if checked % 100 == 0:
                 should_restart = True
