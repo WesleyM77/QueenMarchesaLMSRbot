@@ -7,7 +7,8 @@ import time
 start = time.time()
 
 reddit = praw.Reddit('bot1')
-subreddit = reddit.subreddit("magictcg+edh+pythonforengineers")
+subreddit = reddit.subreddit("magictcg")
+ignore = reddit.redditor('mtgcardfetcher')
 
 lmsrcomment = """>Queen Marchesa (long may she reign)\n
                     \nPlease address the Queen with respect. I'm a bot. If I've made a mistake, click [here.]
@@ -48,15 +49,15 @@ while should_restart:
         if submission.id not in posts_replied_to:
             checked = checked + 1
             print ("Checked ", checked ," posts. ", submission.title)
-            if checked % 2000 == 0:
-                msg = "Uptime: " + str((time.time()-start)/3600) + " hours.\n\n Checked " + str(checked) + " posts.\n\nReplied to " + str(replied) + " posts."
+            if checked % 3500 == 0:
+                msg = "Uptime: " + str("{:.2f}".format((time.time()-start)/3600)) + " hours.\n\n Checked " + str(checked) + " posts.\n\nReplied to " + str(replied) + " posts."
                 reddit.redditor('shadowwesley77').message("Bot Status", msg,) 
             if checked % 100 == 0:
                 should_restart = True
                 break
             if re.search("Queen Marchesa", submission.title, re.IGNORECASE) and not re.search("long may she reign", submission.title, re.IGNORECASE):
                 submission.reply(lmsrcomment)
-                replied += 1
+                replied = replied + 1
                 print("Bot replied to: ", submission.title)
                 posts_replied_to.append(submission.id)
                 with open("posts_replied_to.txt", "w") as f:
@@ -67,10 +68,10 @@ while should_restart:
             comments = submission.comments[:]
             while comments:
                 comment = comments.pop(0)
-                if comment.id not in comments_replied_to and comment.author is not "MTGCardFetcher":
+                if comment.id not in comments_replied_to and comment.author is not ignore:
                     if re.search("Queen Marchesa", comment.body, re.IGNORECASE) and not re.search("long may she reign", comment.body, re.IGNORECASE):
                         comment.reply(lmsrcomment)
-                        replied += 1
+                        replied = replied + 1
                         print("Bot replied to comment under: ", submission.title)
                         comments_replied_to.append(comment.id)
                         with open("comments_replied_to.txt", "w") as t:
@@ -83,10 +84,10 @@ while should_restart:
             comments = submission.comments[:]
             while comments:
                 comment = comments.pop(0)
-                if comment.id not in comments_replied_to and comment.author is not "MTGCardFetcher":
+                if comment.id not in comments_replied_to and comment.author is not reddit.redditor('MTGCardFetcher'):
                     if re.search("Queen Marchesa", comment.body, re.IGNORECASE) and not re.search("long may she reign", comment.body, re.IGNORECASE):
                         comment.reply(lmsrcomment)
-                        replied += 1
+                        replied = replied + 1
                         print("Bot replied to comment under: ", submission.title)
                         comments_replied_to.append(comment.id)
                         with open("comments_replied_to.txt", "w") as t:
