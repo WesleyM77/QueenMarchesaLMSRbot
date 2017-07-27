@@ -7,7 +7,7 @@ import time
 start = time.time()
 
 reddit = praw.Reddit('bot1')
-subreddit = reddit.subreddit("magictcg")
+subreddit = reddit.subreddit("magictcg+mtgjudge+mtgaltered+MTGO+mtgcube+mtgfinance+lrcast")
 ignore = reddit.redditor('mtgcardfetcher')
 
 lmsrcomment = """>Queen Marchesa (long may she reign)\n
