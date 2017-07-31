@@ -7,8 +7,8 @@ import time
 start = time.time()
 
 reddit = praw.Reddit('bot1')
-subreddit = reddit.subreddit("magictcg+mtgjudge+mtgaltered+MTGO+mtgcube+mtgfinance+lrcast")
-ignore = reddit.redditor('mtgcardfetcher')
+subreddit = reddit.subreddit("magictcg+mtgjudge+mtgaltered+MTGO+mtgcube+mtgfinance+lrcast+CompetitiveEDH")
+ignore = str(reddit.redditor('mtgcardfetcher'))
 
 lmsrcomment = """>Queen Marchesa (long may she reign)\n
                     \nPlease address the Queen with respect. I'm a bot. If I've made a mistake, click [here.]
@@ -51,7 +51,8 @@ while should_restart:
             print ("Checked ", checked ," posts. ", submission.title)
             if checked % 3500 == 0:
                 msg = "Uptime: " + str("{:.2f}".format((time.time()-start)/3600)) + " hours.\n\n Checked " + str(checked) + " posts.\n\nReplied to " + str(replied) + " posts."
-                reddit.redditor('shadowwesley77').message("Bot Status", msg,) 
+                reddit.redditor('shadowwesley77').message("Bot Status", msg,)
+                replied = 0
             if checked % 100 == 0:
                 should_restart = True
                 break
@@ -68,7 +69,7 @@ while should_restart:
             comments = submission.comments[:]
             while comments:
                 comment = comments.pop(0)
-                if comment.id not in comments_replied_to and comment.author is not ignore:
+                if comment.id not in comments_replied_to and str.lower(str(comment.author)) != ignore:
                     if re.search("Queen Marchesa", comment.body, re.IGNORECASE) and not re.search("long may she reign", comment.body, re.IGNORECASE):
                         comment.reply(lmsrcomment)
                         replied = replied + 1
@@ -84,7 +85,7 @@ while should_restart:
             comments = submission.comments[:]
             while comments:
                 comment = comments.pop(0)
-                if comment.id not in comments_replied_to and comment.author is not reddit.redditor('MTGCardFetcher'):
+                if comment.id not in comments_replied_to and str.lower(str(comment.author)) != ignore:
                     if re.search("Queen Marchesa", comment.body, re.IGNORECASE) and not re.search("long may she reign", comment.body, re.IGNORECASE):
                         comment.reply(lmsrcomment)
                         replied = replied + 1
